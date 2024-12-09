@@ -1,5 +1,22 @@
 {
-    "MyTask1": {},
-    "MyTask2": {},
-    "MyTask3": {}
+    "点击进入游戏": {
+        "recognition": "OCR",
+        "expected": "声音和振动",
+        "action": "Click",
+        "next": [
+            "自定义测试"
+        ]
+    },
+    "自定义测试": {
+        "recognition": "Custom",
+        "custom_recognition": "Init",
+        "action": "Custom",
+        "custom_action": "ClickBusManager"
+    },
+    "StartUpAndClickButton": {
+        "recognition": "OCR",
+        "expected": "声音和振动",
+        "action": "Click",
+        "next": []
+    }
 }
