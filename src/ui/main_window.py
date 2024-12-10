@@ -11,6 +11,8 @@ from PySide6.QtGui import QIcon
 from PySide6 import QtCore, QtWidgets
 from src.service.devices import Devices
 
+from src.service.test import Test
+
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
@@ -68,7 +70,7 @@ class MainWindow(QWidget):
     def add_project(self):
         devicesStr = Devices().get_all_devices()
         print(devicesStr)
-
+        Test().post_test()
     def edit_items(self):
         print("789")
 

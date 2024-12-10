@@ -1,22 +1,53 @@
 {
-    "点击进入游戏": {
-        "recognition": "OCR",
-        "expected": "声音和振动",
-        "action": "Click",
-        "next": [
-            "自定义测试"
-        ]
-    },
     "自定义测试": {
         "recognition": "Custom",
         "custom_recognition": "Init",
         "action": "Custom",
         "custom_action": "ClickBusManager"
     },
-    "StartUpAndClickButton": {
+    "识别返回图标": {
+        "recognition": "TemplateMatch",
+        "template": "返回.png",
+        "timeout": 200
+    },
+    "点击返回图标": {
+        "recognition": "TemplateMatch",
+        "template": "返回.png",
+        "action": "Click",
+        "next": []
+    },
+    "声音和振动": {
         "recognition": "OCR",
         "expected": "声音和振动",
         "action": "Click",
-        "next": []
+        "next": "向下滑动"
+    },
+    "向下滑动": {
+        "action": "Swipe",
+        "begin": [
+            500,
+            500,
+            10,
+            10
+        ],
+        "end": [
+            500,
+            100,
+            10,
+            10
+        ],
+        "next": "点击杜比全景声"
+    },
+    "点击杜比全景声": {
+        "recognition": "OCR",
+        "expected": "杜比全景声",
+        "order_by": "Vertical",
+        "action": "Click",
+        "target_offset": [
+            480,
+            10,
+            0,
+            0
+        ]
     }
 }
