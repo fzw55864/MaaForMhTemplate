@@ -1,14 +1,17 @@
 import sys
+import os
 
 from maa.resource import Resource
 from maa.controller import AdbController
 from maa.tasker import Tasker
 from maa.toolkit import Toolkit
 
+from src.util.filehelp import fileInfo,FileHelper
+
 class Test():
     
     def post_test(self) -> None:
-        user_path = "./"
+        user_path = os.getenv("USER_PATH", "./")
         Toolkit.init_option(user_path)
 
         resource = Resource()
@@ -29,7 +32,11 @@ class Test():
             input_methods=device.input_methods,
             config=device.config,
         )
-        controller.post_connection().wait()
+
+        try:
+            controller.post_connection().wait()
+        except Exception as e:
+            print(f"Failed to connect to ADB device: {e}")
 
         tasker = Tasker()
         # tasker = Tasker(notification_handler=MyNotificationHandler())
@@ -40,10 +47,19 @@ class Test():
             exit()
 
         # 初始化
-        task_detail = tasker.post_pipeline("识别返回图标").wait().get()
-        while task_detail.status.succeeded():
-            task_detail = tasker.post_pipeline("点击返回图标").wait().get()
+        max_attempts = 5
+        attempts = 0
+        while attempts < max_attempts:
             task_detail = tasker.post_pipeline("识别返回图标").wait().get()
+            if task_detail.status.succeeded():
+                task_detail = tasker.post_pipeline("点击返回图标").wait().get()
+                if not task_detail.status.succeeded():
+                    print("Failed to click return icon.")
+                    break
+            else:
+                print("Failed to recognize return icon.")
+                break
+            attempts += 1
 
         # 点击“声音和振动”按钮
         task_detail = tasker.post_pipeline("声音和振动").wait().get()
@@ -52,3 +68,15 @@ class Test():
             print("Success!")
         else:
             print("Failed!")
+    
+    def file_test(self) -> None:
+        # 初始化配置文件
+        FileHelper.init_config_file()
+
+        print(f"Using config: {FileHelper.get_attribute("Code")}")
+
+        # 使用 fileInfo
+        if fileInfo:
+            print(f"Using config: {FileHelper.get_attribute("Code")}")
+        else:
+            print("No config available.")

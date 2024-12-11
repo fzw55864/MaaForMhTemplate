@@ -5,7 +5,7 @@ from PySide6.QtWidgets import (
     QHBoxLayout, QGroupBox,QFrame,QComboBox,
      QTableWidget, QTextEdit,
     QSplitter, QHeaderView, QWidget, QVBoxLayout, QPushButton, QLabel,
-     QSizePolicy
+     QSizePolicy,QDialog
 )
 from PySide6.QtGui import QIcon
 from PySide6 import QtCore, QtWidgets
@@ -29,7 +29,7 @@ class MainWindow(QWidget):
         main_layout.setSpacing(15)
         main_layout.setContentsMargins(20, 20, 20, 20)
 
-       # 下拉框和按钮组布局
+        # 下拉框和按钮组布局
         combo_layout = QHBoxLayout()
         self.combo_box = QComboBox()
         self.combo_box.setMinimumWidth(200)
@@ -66,13 +66,24 @@ class MainWindow(QWidget):
         self.add_btn.clicked.connect(self.add_project)
         main_layout.addWidget(self.add_btn)
 
-
     def add_project(self):
         devicesStr = Devices().get_all_devices()
         print(devicesStr)
+        # 系统设置测试
         Test().post_test()
     def edit_items(self):
         print("789")
+        dialog = CustomDialog(self)
+        dialog.exec()
 
     def refresh_items(self):
         print("456")
+
+class CustomDialog(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("自定义对话框")
+        self.setModal(True)
+        self.layout = QVBoxLayout(self)
+        self.label = QLabel("这是一个模态对话框", self)
+        self.layout.addWidget(self.label)
