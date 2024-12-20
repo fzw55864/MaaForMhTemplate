@@ -1,4 +1,5 @@
 import sys
+from datetime import datetime, time
 
 # -*- coding: UTF-8 -*-
 from PySide6.QtWidgets import (
@@ -7,64 +8,60 @@ from PySide6.QtWidgets import (
     QSplitter, QHeaderView, QWidget, QVBoxLayout, QPushButton, QLabel,
      QSizePolicy,QDialog
 )
+from PySide6.QtCore import QThreadPool, QThreadPool, QRunnable, Signal, Slot, QObject
 from PySide6.QtGui import QIcon
 from PySide6 import QtCore, QtWidgets
 from src.service.devices import Devices
 
+from src.service.exit import ExitTask
 from src.service.test import Test
+from src.ui.ui_test import Ui_Form
+from src.util.filehelp import FileHelper
 
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
+        # 初始化 UI
+        self.ui = Ui_Form()
+        self.ui.setupUi(self)
 
-        self.hello = ["你好世界", "Hallo Welt", "Hei maailma", "Hola Mundo", "Привет мир"]
-        self.resize(800, 600)  # 设置大小
-        self.setup_ui()
+        # 绑定控件事件
+        self.bind_control_event()
 
-    def setup_ui(self) -> None:
-        """设置界面"""
+        # 初始化线程池
+        self.thread_pool = QThreadPool()
 
-        # 创建主布局
-        main_layout = QVBoxLayout(self)
-        main_layout.setSpacing(15)
-        main_layout.setContentsMargins(20, 20, 20, 20)
+    def bind_control_event(self):
+        # 获取UI文件中的小部件对象
+        self.btn_search_devices = self.ui.btn_search_devices
+        # self.btn_shup_up = self.ui.btn_shup_up
+        # 连接信号和槽
+        self.btn_search_devices.clicked.connect(self.bt_click)
+        self.ui.btn_shup_up.clicked.connect(self.shutup)
+    
+    # 扫描设备
+    def bt_click(self):
+        print("click")
 
-        # 下拉框和按钮组布局
-        combo_layout = QHBoxLayout()
-        self.combo_box = QComboBox()
-        self.combo_box.setMinimumWidth(200)
-        combo_layout.addWidget(self.combo_box)
+    # 定时关闭
+    def shutup(self):
+        # 创建并启动任务
+        task = ExitTask()
+        task.signals.progress_updated.connect(self.update_label)  # 连接信号到槽
+        self.thread_pool.start(task)
+        self.ui.btn_shup_up.setEnabled(False)
+        self.ui.btn_shup_up.setText("正在关闭...")
 
-        # 刷新按钮
-        self.refresh_btn = QPushButton()
-        # self.refresh_btn.setIcon(QIcon('assets/icons/svg_icons/icon_search.svg'))
-        self.refresh_btn.setFixedSize(30, 30)
-        self.refresh_btn.setToolTip("刷新项目")
-        self.refresh_btn.clicked.connect(self.refresh_items)
-        combo_layout.addWidget(self.refresh_btn)
+    @Slot(str)
+    def update_label(self, message):
+        # 更新标签文本
+        print(message)
+        self.ui.btn_shup_up.setText("启用")
+        self.ui.btn_shup_up.setEnabled(True)
 
-        # 编辑按钮
-        self.edit_btn = QPushButton()
-        # self.edit_btn.setIcon(QIcon('assets/icons/svg_icons/icon_more_options.svg'))
-        self.edit_btn.setFixedSize(30, 30)
-        self.edit_btn.setToolTip("编辑项目")
-        self.edit_btn.clicked.connect(self.edit_items)
-        combo_layout.addWidget(self.edit_btn)
-
-        main_layout.addLayout(combo_layout)
-
-        # 分隔线
-        line = QFrame()
-        line.setFrameShape(QFrame.HLine)
-        line.setFrameShadow(QFrame.Sunken)
-        main_layout.addWidget(line)
-
-        # 添加按钮
-        self.add_btn = QPushButton("添加")
-        self.add_btn.setObjectName("addButton")
-        self.add_btn.setFixedHeight(35)
-        self.add_btn.clicked.connect(self.add_project)
-        main_layout.addWidget(self.add_btn)
+    # 保存配置
+    def save_config(self) -> None:
+        FileHelper.Save()
 
     def add_project(self):
         devicesStr = Devices().get_all_devices()

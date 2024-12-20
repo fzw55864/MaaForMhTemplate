@@ -16,7 +16,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QHBoxLayout, QLabel,
-    QPushButton, QSizePolicy, QTextEdit, QWidget)
+    QPushButton, QSizePolicy, QTextEdit, QTimeEdit,
+    QWidget)
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -35,41 +36,50 @@ class Ui_Form(object):
         self.btn_save_device = QPushButton(Form)
         self.btn_save_device.setObjectName(u"btn_save_device")
         self.btn_save_device.setGeometry(QRect(460, 20, 80, 32))
-        self.widget = QWidget(Form)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(50, 110, 491, 31))
-        self.lay_shop1_goods = QHBoxLayout(self.widget)
+        self.layoutWidget = QWidget(Form)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(50, 110, 491, 31))
+        self.lay_shop1_goods = QHBoxLayout(self.layoutWidget)
         self.lay_shop1_goods.setObjectName(u"lay_shop1_goods")
         self.lay_shop1_goods.setContentsMargins(0, 0, 0, 0)
-        self.lbl_shop1_goods_config = QLabel(self.widget)
+        self.lbl_shop1_goods_config = QLabel(self.layoutWidget)
         self.lbl_shop1_goods_config.setObjectName(u"lbl_shop1_goods_config")
 
         self.lay_shop1_goods.addWidget(self.lbl_shop1_goods_config)
 
-        self.txt_shop1_goods_config = QTextEdit(self.widget)
+        self.txt_shop1_goods_config = QTextEdit(self.layoutWidget)
         self.txt_shop1_goods_config.setObjectName(u"txt_shop1_goods_config")
 
         self.lay_shop1_goods.addWidget(self.txt_shop1_goods_config)
 
-        self.layoutWidget = QWidget(Form)
-        self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(50, 150, 491, 31))
-        self.lay_price1 = QHBoxLayout(self.layoutWidget)
+        self.layoutWidget1 = QWidget(Form)
+        self.layoutWidget1.setObjectName(u"layoutWidget1")
+        self.layoutWidget1.setGeometry(QRect(50, 150, 491, 31))
+        self.lay_price1 = QHBoxLayout(self.layoutWidget1)
         self.lay_price1.setObjectName(u"lay_price1")
         self.lay_price1.setContentsMargins(0, 0, 0, 0)
-        self.lbl_shop1_price_config = QLabel(self.layoutWidget)
+        self.lbl_shop1_price_config = QLabel(self.layoutWidget1)
         self.lbl_shop1_price_config.setObjectName(u"lbl_shop1_price_config")
 
         self.lay_price1.addWidget(self.lbl_shop1_price_config)
 
-        self.txt_shop1_price1_config = QTextEdit(self.layoutWidget)
+        self.txt_shop1_price1_config = QTextEdit(self.layoutWidget1)
         self.txt_shop1_price1_config.setObjectName(u"txt_shop1_price1_config")
 
         self.lay_price1.addWidget(self.txt_shop1_price1_config)
 
         self.combo_config = QComboBox(Form)
         self.combo_config.setObjectName(u"combo_config")
-        self.combo_config.setGeometry(QRect(120, 20, 321, 32))
+        self.combo_config.setGeometry(QRect(110, 20, 321, 32))
+        self.timeEdit = QTimeEdit(Form)
+        self.timeEdit.setObjectName(u"timeEdit")
+        self.timeEdit.setGeometry(QRect(120, 60, 121, 31))
+        self.lbl_shut_up = QLabel(Form)
+        self.lbl_shut_up.setObjectName(u"lbl_shut_up")
+        self.lbl_shut_up.setGeometry(QRect(50, 70, 58, 16))
+        self.btn_shup_up = QPushButton(Form)
+        self.btn_shup_up.setObjectName(u"btn_shup_up")
+        self.btn_shup_up.setGeometry(QRect(270, 60, 100, 32))
 
         self.retranslateUi(Form)
 
@@ -84,5 +94,7 @@ class Ui_Form(object):
         self.btn_save_device.setText(QCoreApplication.translate("Form", u"\u53e6\u5b58\u914d\u7f6e", None))
         self.lbl_shop1_goods_config.setText(QCoreApplication.translate("Form", u"\u5546\u5e97\u914d\u7f6e1", None))
         self.lbl_shop1_price_config.setText(QCoreApplication.translate("Form", u"\u4ef7\u683c\u914d\u7f6e1", None))
+        self.lbl_shut_up.setText(QCoreApplication.translate("Form", u"\u5b9a\u65f6\u5173\u95ed", None))
+        self.btn_shup_up.setText(QCoreApplication.translate("Form", u"\u542f\u52a8", None))
     # retranslateUi
 

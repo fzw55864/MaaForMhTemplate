@@ -6,7 +6,7 @@ from maa.controller import AdbController
 from maa.tasker import Tasker
 from maa.toolkit import Toolkit
 
-from src.util.filehelp import fileInfo,FileHelper
+from src.util.filehelp import json_file_info,FileHelper
 
 class Test():
     
@@ -73,10 +73,10 @@ class Test():
         # 初始化配置文件
         FileHelper.init_config_file()
 
-        print(f"Using config: {FileHelper.get_attribute("Code")}")
+        print(f"Using config: {FileHelper.get_json_attribute("Code")}")
 
         # 使用 fileInfo
-        if fileInfo:
-            print(f"Using config: {FileHelper.get_attribute("Code")}")
+        if json_file_info:
+            print(f"Using config: {FileHelper.get_json_attribute("Code")}")
         else:
             print("No config available.")
